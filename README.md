@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+Demo video [can be viewed here](https://drive.google.com/file/d/1dMYROigOLsMcFIYcsEmh7XULxlLPLmHo/view?usp=drivesdk)
+
 Download the built APK from GitHub releases.
 
 ## Getting Started
