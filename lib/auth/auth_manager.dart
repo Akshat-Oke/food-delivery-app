@@ -6,8 +6,6 @@ import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/res_owner/res_home.dart';
 import 'package:provider/provider.dart';
 
-import 'login_screen.dart';
-
 class AuthManager extends StatelessWidget {
   const AuthManager({Key? key}) : super(key: key);
 

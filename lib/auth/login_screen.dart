@@ -1,12 +1,8 @@
-import 'dart:async';
-
-import 'package:animated_widgets/animated_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:fooddeli/auth/create_account.dart';
 import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/utility/dialog.dart';
-import 'package:fooddeli/utility/firebase_orders.dart';
 import 'package:fooddeli/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +17,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   // bool _enabled = true;
-  bool _createAccount = false;
   String email = "", password = "", outlet = "";
   @override
   Widget build(BuildContext context) {
@@ -46,20 +41,13 @@ class _LoginPageState extends State<LoginPage> {
                 password = val;
               },
             ),
-            if (_createAccount)
-              CustomTextField(
-                hint: "Outlet name",
-                onChanged: (val) {
-                  outlet = val;
-                },
-              ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
                 try {
-                  UserCredential userCredential = await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: email, password: password);
+                  //UserCredential userCredential =
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email, password: password);
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'user-not-found') {
                     showInfoDialog(context, 'No user found for that email.');
@@ -106,10 +94,11 @@ class _LoginPageState extends State<LoginPage> {
                         context, 'The account already exists for that email.');
                   }
                 } catch (e) {
-                  print(e);
+                  // print(e);
+                  showInfoDialog(context, "UNexpected error occurred");
                 }
               },
-              child: Text("Create account"),
+              child: const Text("Create account"),
             ),
             ElevatedButton(
                 onPressed: () {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/models/menu_item.dart';
+import 'package:fooddeli/models/restaurant_model.dart' show TimeOfTimestamp;
 
 class Order with ChangeNotifier {
   List<dynamic> items;
@@ -10,6 +11,13 @@ class Order with ChangeNotifier {
   final String userFCM, room;
   String? resName;
   String? id;
+
+  String timeString(BuildContext context) {
+    final date = time.toDate();
+    final d =
+        ",  ${date.day.toString()}/${date.month.toString()}/${date.year.toString().substring(2)}";
+    return time.toTimeOfDay().format(context) + d;
+  }
 
   Order({
     required this.items,

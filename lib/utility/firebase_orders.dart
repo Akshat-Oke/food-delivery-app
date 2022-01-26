@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddeli/models/cart_provider.dart';
+import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/models/menu_item.dart';
 import 'package:fooddeli/res_owner/models/order.dart';
 import 'package:http/http.dart' as http;
@@ -104,6 +104,10 @@ Future<void> closeOrder(String resId, Order order) async {
       "restaurantName": order.resName ?? "Food", // is on the way! message
     }),
   );
+}
+
+void deleteLocalOrders() {
+  prefs.remove("orders");
 }
 
 extension Datestamp on TimeOfDay {

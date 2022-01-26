@@ -1,6 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:fooddeli/models/cart_provider.dart';
-import 'package:provider/provider.dart';
 
 import 'cart_item_list.dart';
 import 'order_button.dart';
@@ -10,7 +8,7 @@ class CartViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int itemCount = context.watch<CartProvider>().items.length;
+    // final int itemCount = context.watch<CartProvider>().items.length;
 
     return Scaffold(
       appBar: AppBar(

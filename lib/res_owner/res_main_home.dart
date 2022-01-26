@@ -23,7 +23,8 @@ class ResMainHome extends StatelessWidget {
             ZoomDrawer.of(context)?.open();
           },
         ),
-        title: Text(context.watch<LoginManager>().resOwner?.name ?? "Orders"),
+        title: Text(
+            "Orders: " + (context.watch<LoginManager>().resOwner?.name ?? " ")),
       ),
       floatingActionButton: context.watch<LoginManager>().resOwner == null
           ? null

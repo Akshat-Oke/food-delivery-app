@@ -21,8 +21,11 @@ class RestaurantModel {
   final Timestamp fromTime, toTime;
 
   bool get isOpen {
-    final now = Timestamp.now();
-    return fromTime.compareTo(now) < 0 && toTime.compareTo(now) > 0;
+    final now = toDouble(TimeOfDay.now());
+    final fromTime = toDouble(this.fromTime.toTimeOfDay());
+    final toTime = toDouble(this.toTime.toTimeOfDay());
+    return fromTime < now && now < toTime;
+    // return fromTime.compareTo(now) < 0 && toTime.compareTo(now) > 0;
   }
 
   /// Menu items
@@ -57,5 +60,14 @@ class RestaurantModel {
       docId: json["id"],
       categories: (json["categories"]) ?? [],
     );
+  }
+}
+
+double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
+
+extension TimeOfTimestamp on Timestamp {
+  TimeOfDay toTimeOfDay() {
+    final date = toDate();
+    return TimeOfDay.fromDateTime(date);
   }
 }

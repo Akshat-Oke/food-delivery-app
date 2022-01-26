@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -69,6 +70,9 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<bool?> placeOrder() async {
+    if (!await internetIsAvailable()) {
+      return false;
+    }
     final fcm = await FirebaseMessaging.instance.getToken();
     final itemsAsJson = items.map((e) => e.toJSON()).toList();
     final orderId = (DateTime.now().microsecondsSinceEpoch / 100).toString();
@@ -80,14 +84,12 @@ class CartProvider with ChangeNotifier {
       "orderId": orderId,
     };
     final response = await http.post(Uri.parse("$BASE_URL/txnToken"), body: {
-      "amount": totalPrice,
+      "amount": totalPrice.toString(),
       "orderId": orderId,
     });
-    final token = jsonDecode(response.body);
+    final token = jsonDecode(response.body.toString()) as Map<String, dynamic>;
     await startPayment(
-        amount: totalPrice,
-        txnToken: token['body']['txnToken'],
-        orderID: orderId);
+        amount: totalPrice, txnToken: token['txnToken'], orderID: orderId);
     // return true;
     _saveOrderLocally({
       "items": itemsAsJson,
@@ -95,27 +97,13 @@ class CartProvider with ChangeNotifier {
       "resId": restaurantId,
     });
 
-    // prefs.setString(
-    //   "orders",
-    //   jsonEncode({
-    //     "orders": [
-    //       {
-    //         "items": itemsAsJson,
-    //         "time": Timestamp.now().toString(),
-    //         "resId": restaurantId,
-    //       },
-    //     ]
-    //   }),
-    // );
     CollectionReference restaurantOrders = FirebaseFirestore.instance
         .collection('restaurants/$restaurantId/orders');
-    final docid = await restaurantOrders.add(orderJson);
-    // print("docidid" + docid.path);
-    // await restaurantOrders.update({
-    //   "orders": FieldValue.arrayUnion([orderJson])
-    // });
+    // final docid =
+    await restaurantOrders.add(orderJson);
     items.clear();
     notifyListeners();
+    return true;
   }
 
   void _saveOrderLocally(obj) {
@@ -142,5 +130,17 @@ class CartItem {
       "itemId": menuItem.id,
       "quantity": quantity,
     };
+  }
+}
+
+Future<bool> internetIsAvailable() async {
+  try {
+    final result = await InternetAddress.lookup('example.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      return Future.value(true);
+    }
+    return false;
+  } on SocketException catch (_) {
+    return false;
   }
 }

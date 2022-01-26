@@ -123,7 +123,7 @@ class ItemCard extends StatelessWidget {
                     icon: const Icon(Icons.close, color: Colors.red),
                     onPressed: () async {
                       animate = false;
-                      removeItem(menuItem: menuItem, delete: false);
+                      _showDialogForDisableItem(context);
                     },
                   ),
                 if (forRes && !menuItem.isAvailable)
@@ -141,6 +141,37 @@ class ItemCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showDialogForDisableItem(context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Remove item"),
+              content: const Text(
+                  "You can choose to either delete the item or mark it as currently unavailable (disable for order)."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    removeItem(menuItem: menuItem, delete: true);
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Delete item",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    removeItem(menuItem: menuItem, delete: false);
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Disable for order",
+                  ),
+                ),
+              ],
+            ));
   }
 }
 

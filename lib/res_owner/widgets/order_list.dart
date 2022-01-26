@@ -73,6 +73,8 @@ class ResOrderList extends StatelessWidget {
                   "No orders yet.\nClick the + icon on the bottom to add items"));
         }
 
+        orders.sort((a, b) => b.time.compareTo(a.time));
+
         return ListView.builder(
             itemCount: orders.length,
             itemBuilder: (context, i) =>

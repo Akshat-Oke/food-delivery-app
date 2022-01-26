@@ -49,7 +49,7 @@ class OrderCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (order.resName != null)
+                    if (forUser && order.resName != null)
                       Text(
                         order.resName!,
                         style: const TextStyle(
@@ -88,6 +88,8 @@ class OrderCard extends StatelessWidget {
                               ],
                             ))
                         .toList(),
+                    const SizedBox(height: 6),
+                    if (!forUser) Text(order.timeString(context)),
                   ],
                 ),
               ),
@@ -120,8 +122,9 @@ class OrderCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Close order?"),
-        content: Text("This signifies that this order will be dispatched now."),
+        title: const Text("Close order?"),
+        content: const Text(
+            "This signifies that this order will be dispatched now."),
         actions: [
           TextButton(
             onPressed: () {

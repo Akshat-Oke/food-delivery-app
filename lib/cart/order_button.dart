@@ -2,11 +2,16 @@ import "package:flutter/material.dart";
 import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/screens/orders_page.dart';
 import "package:provider/provider.dart";
-import "package:fooddeli/utility/firebase_orders.dart";
 
-class OrderButton extends StatelessWidget {
+class OrderButton extends StatefulWidget {
   const OrderButton({Key? key}) : super(key: key);
 
+  @override
+  State<OrderButton> createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final hasItemsInCart = context.watch<CartProvider>().items.isNotEmpty;
@@ -64,7 +69,7 @@ class OrderButton extends StatelessWidget {
                 child: TextButton(
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                          EdgeInsets.symmetric(vertical: 14)),
+                          const EdgeInsets.symmetric(vertical: 14)),
                       backgroundColor: MaterialStateProperty.all(Colors.white),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -72,16 +77,34 @@ class OrderButton extends StatelessWidget {
                         ),
                       )),
                   onPressed: () async {
+                    if (isLoading) return;
+                    setState(() {
+                      isLoading = true;
+                    });
                     await context.read<CartProvider>().placeOrder();
+                    setState(() {
+                      isLoading = false;
+                    });
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (_) => const OrdersPage()));
                   },
-                  child: Text(
-                    "Place Order",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        isLoading ? "Placing order..." : "Place Order",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      if (isLoading) const SizedBox(height: 6),
+                      if (isLoading)
+                        const SizedBox(
+                          width: 200,
+                          child: LinearProgressIndicator(),
+                        ),
+                    ],
                   ),
                 ),
               )
