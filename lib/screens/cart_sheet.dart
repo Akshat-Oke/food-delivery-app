@@ -40,7 +40,8 @@ class CartBottomSheet extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push<void>(
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => CartViewScreen(),
+                          builder: (BuildContext context) =>
+                              const CartViewScreen(),
                         ),
                       );
                     },

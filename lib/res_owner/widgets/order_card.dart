@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/res_owner/models/order.dart';
 import 'package:fooddeli/utility/firebase_orders.dart';
@@ -20,7 +19,7 @@ class OrderCard extends StatelessWidget {
     final resId = this.resId.isNotEmpty
         ? this.resId
         : context.watch<LoginManager>().resOwner?.resId;
-    if (resId == null) return Text("loading");
+    if (resId == null) return const Text("loading");
 
     return FutureBuilder(
       future: order.getItemDetails(resId),

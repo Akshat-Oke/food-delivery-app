@@ -4,7 +4,6 @@ import 'package:fooddeli/menu_items_page/widgets/quantity_button.dart';
 import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/models/menu_item.dart';
 import 'package:fooddeli/utility/firebase_orders.dart';
-import 'package:fooddeli/utility/theme_data.dart';
 import "package:provider/provider.dart";
 
 class ItemCard extends StatelessWidget {

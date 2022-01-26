@@ -8,7 +8,7 @@ import 'package:fooddeli/res_owner/models/order.dart';
 import 'package:http/http.dart' as http;
 
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
-const BASE_URL = "https://food-deli.herokuapp.com";
+const serverBaseURL = "https://food-deli.herokuapp.com";
 
 /// Adds or updates outlet, depending on resId
 Future<void> addOutlet(
@@ -102,7 +102,7 @@ Future<void> restoreItem(MenuItem menuItem) async {
 Future<void> closeOrder(String resId, Order order) async {
   // print(order.resName);
   await http.post(
-    Uri.parse('$BASE_URL/dispatch'),
+    Uri.parse('$serverBaseURL/dispatch'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

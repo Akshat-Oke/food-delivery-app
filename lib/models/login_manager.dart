@@ -37,7 +37,7 @@ class LoginManager with ChangeNotifier {
     String? room = prefs.getString("room");
     if (room != null) {
       user = Student(room);
-      print(user);
+      // print(user);
       user!.id = prefs.getString("id");
       user!.name = prefs.getString("name");
       _userType = UserTypes.user;
@@ -48,14 +48,14 @@ class LoginManager with ChangeNotifier {
       await _fetchUser(fireUser);
       setUpFireuserListener(fireUser.uid);
       setUpFirebaseResListener(resOwner?.resId);
-    } else
+    } else {
       checkFirebase();
+    }
     notifyListeners();
   }
 
   void checkFirebase([User? user]) async {
     var curUser = FirebaseAuth.instance.currentUser;
-    print(curUser);
     if (curUser != null) {
       if (refresh >= 0) {
         refresh--;
@@ -83,7 +83,7 @@ class LoginManager with ChangeNotifier {
   }
 
   void setUpFireuserListener(String uid) {
-    print("setting up $uid");
+    // print("setting up $uid");
     FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
@@ -95,7 +95,6 @@ class LoginManager with ChangeNotifier {
   }
 
   void setUpFirebaseResListener(String? resId) {
-    print("setting up res $resId");
     FirebaseFirestore.instance
         .collection("restaurants")
         .doc(resId)
@@ -123,7 +122,7 @@ class LoginManager with ChangeNotifier {
         name: data?["name"] ?? "Outlet",
         categories: data?["categories"] ?? [],
       );
-    } on Exception catch (e) {
+    } on Exception {
       resOwner = null;
     } finally {
       // setUpFireuserListener(uid);
@@ -190,7 +189,8 @@ class Student {
 void _setUpMessaging() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  NotificationSettings settings = await messaging.requestPermission(
+  //NotificationSettings settings =
+  await messaging.requestPermission(
     alert: true,
     announcement: false,
     badge: true,

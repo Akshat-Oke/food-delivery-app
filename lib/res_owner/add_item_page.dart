@@ -6,7 +6,7 @@ import 'package:fooddeli/widgets/custom_text_field.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class AddItemPage extends StatefulWidget {
-  AddItemPage(this.resOwner, {Key? key}) : super(key: key);
+  const AddItemPage(this.resOwner, {Key? key}) : super(key: key);
   final ResOwner? resOwner;
 
   @override

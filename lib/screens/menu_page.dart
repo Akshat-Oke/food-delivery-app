@@ -41,8 +41,8 @@ class MenuPage extends StatelessWidget {
                 const SpaceBetween(),
                 GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => OrdersPage()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const OrdersPage()));
                     },
                     child: const Text("Orders")),
                 const SpaceBetween(),

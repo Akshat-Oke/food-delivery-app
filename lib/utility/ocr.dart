@@ -12,8 +12,6 @@ class OCR {
   }
 
   static Future<String?> ocr(File? imageFile) async {
-    print("IMAGEFILE");
-    print(imageFile == null);
     if (imageFile != null) {
       final inputImage = InputImage.fromFile(imageFile);
       final textDetector = GoogleMlKit.vision.textDetector();
@@ -26,7 +24,6 @@ class OCR {
   static String? extractIDandName(RecognisedText recognisedText) {
     for (TextBlock block in recognisedText.blocks) {
       for (TextLine line in block.lines) {
-        print("OCROCR" + line.text);
         RegExp idRegex = RegExp(r"20[12]\d.*\d{4}H");
         // if (line.text.contains("ID")) {
         if (idRegex.hasMatch(line.text)) {

@@ -1,11 +1,8 @@
 // ignore_for_file: unnecessary_const, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import "package:flutter/material.dart";
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:fooddeli/home_page/app_bar.dart';
-import 'package:fooddeli/home_page/restaurant_card.dart';
 import 'package:fooddeli/home_page/restaurants_list.dart';
-import 'package:fooddeli/models/restaurant_model.dart';
 
 class MainHomePage extends StatefulWidget {
   const MainHomePage({Key? key}) : super(key: key);

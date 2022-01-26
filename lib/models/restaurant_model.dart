@@ -51,7 +51,6 @@ class RestaurantModel {
   }
 
   factory RestaurantModel.fromJSON(Map<String, dynamic> json) {
-    final t = Timestamp(1234134, 0);
     return RestaurantModel._(
       name: json["name"] ?? "Restaurant",
       // isOpen: json["isOpen"] ?? false,

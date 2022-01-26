@@ -50,7 +50,8 @@ class _FilterButtonsState extends State<FilterButtons> {
 }
 
 class FilterChip extends StatelessWidget {
-  FilterChip({required this.category, required this.onSelected});
+  const FilterChip({Key? key, required this.category, required this.onSelected})
+      : super(key: key);
   final String category;
   final void Function(BuildContext, String) onSelected;
   @override

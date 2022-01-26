@@ -6,7 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fooddeli/cart/payment.dart';
 import 'package:fooddeli/models/login_manager.dart';
-import 'package:fooddeli/utility/firebase_orders.dart' show BASE_URL;
+import 'package:fooddeli/utility/firebase_orders.dart' show serverBaseURL;
 import 'package:http/http.dart' as http;
 
 import 'menu_item.dart';
@@ -19,7 +19,7 @@ class CartProvider with ChangeNotifier {
     room = "VK 312";
   }
   void setRestaurant(String r) {
-    print("setting $r");
+    // print("setting $r");
     if (restaurantId != r) {
       items.clear();
     }
@@ -84,7 +84,8 @@ class CartProvider with ChangeNotifier {
         "fcm": fcm,
         "orderId": orderId,
       };
-      final response = await http.post(Uri.parse("$BASE_URL/txnToken"), body: {
+      final response =
+          await http.post(Uri.parse("$serverBaseURL/txnToken"), body: {
         "amount": totalPrice.toString(),
         "orderId": orderId,
       });
@@ -106,7 +107,7 @@ class CartProvider with ChangeNotifier {
       items.clear();
       notifyListeners();
       return true;
-    } on Exception catch (e) {
+    } on Exception {
       return false;
     }
   }

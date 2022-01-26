@@ -1,14 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:fooddeli/auth/auth_manager.dart';
 import 'package:fooddeli/firebase_options.dart';
 import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/models/login_manager.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/menu_page.dart';
-import 'screens/main_home_page.dart';
 import 'utility/theme_data.dart';
 
 void main() async {
@@ -16,7 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(RestartWidget(child: const MyApp()));
+  runApp(const RestartWidget(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +26,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Yummies',
-        theme: THEME_DATA,
+        theme: themeDATA,
         home: ChangeNotifierProvider<LoginManager>(
           create: (_) => LoginManager(),
           builder: (context, _) => const AuthManager(),
@@ -40,7 +37,7 @@ class MyApp extends StatelessWidget {
 }
 
 class RestartWidget extends StatefulWidget {
-  RestartWidget({required this.child});
+  const RestartWidget({Key? key, required this.child}) : super(key: key);
 
   final Widget child;
 

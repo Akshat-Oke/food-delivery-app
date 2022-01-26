@@ -22,7 +22,7 @@ class _RestaurantListState extends State<RestaurantList> {
         List<Widget> list = [];
 
         if (snapshot.hasError) {
-          return SliverToBoxAdapter(child: const Text("error"));
+          return const SliverToBoxAdapter(child: Text("error"));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           // return SliverToBoxAdapter(child: const Text("loading"));

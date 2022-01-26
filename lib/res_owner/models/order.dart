@@ -31,7 +31,6 @@ class Order with ChangeNotifier {
     // cartItems.clear();
     final CollectionReference col =
         FirebaseFirestore.instance.collection("restaurants/$resId/items");
-    print("restaurants/$resId/items");
     FirebaseFirestore.instance
         .collection("restaurants")
         .doc(resId)

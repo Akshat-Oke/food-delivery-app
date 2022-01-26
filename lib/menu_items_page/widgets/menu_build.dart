@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fooddeli/menu_items_page/widgets/filter_buttons.dart';
-import 'package:fooddeli/menu_items_page/widgets/item.dart';
 import 'package:fooddeli/menu_items_page/widgets/menu_list.dart';
 import 'package:fooddeli/menu_items_page/widgets/veg_switch.dart';
 import 'package:fooddeli/models/menu_items_provider.dart';

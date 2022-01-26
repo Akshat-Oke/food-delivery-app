@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:fooddeli/auth/create_account.dart';
 import 'package:fooddeli/models/login_manager.dart';
@@ -26,7 +25,7 @@ class ResOrderList extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => CreateAccountPage(),
+                    builder: (_) => const CreateAccountPage(),
                   ),
                 );
               },

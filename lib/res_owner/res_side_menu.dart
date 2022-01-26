@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import 'package:fooddeli/auth/create_account.dart';
 import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/res_owner/res_items.dart';
-import 'package:fooddeli/screens/orders_page.dart';
 import 'package:provider/provider.dart';
 
 class ResSideMenu extends StatelessWidget {

@@ -6,7 +6,6 @@ import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/res_owner/models/order.dart';
 import 'package:fooddeli/res_owner/widgets/order_card.dart';
 import 'package:fooddeli/utility/firebase_orders.dart';
-import 'package:provider/provider.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({Key? key}) : super(key: key);

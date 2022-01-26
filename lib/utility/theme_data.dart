@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
-final THEME_DATA = ThemeData(
-    primarySwatch: MaterialColor(0xFFef6c36, color),
+final themeDATA = ThemeData(
+    primarySwatch: const MaterialColor(0xFFef6c36, color),
     primaryColor: const Color(0xFFef6c36),
     fontFamily: 'Noto Sans',
-    textTheme: TEXT_THEME,
+    // textTheme: TEXT_THEME,
     inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.white,
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         fontSize: 16,
       ),
       filled: true,
-      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       // border: InputBorder.none,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           width: 0,
           style: BorderStyle.none,
         ),
@@ -42,11 +40,11 @@ const Map<int, Color> color = {
   900: Color.fromRGBO(136, 14, 79, 1),
 };
 
-const TEXT_THEME = TextTheme(
+// const TEXT_THEME = TextTheme(
     // subtitle1: TextStyle(fontSize: 18),
     // headline1: TextStyle(fontSize: 62.0, fontWeight: FontWeight.bold),
     // headline5: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w500),
     // headline6: TextStyle(fontSize: 32.0),
     // bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-    );
+    // );
 // const CARD_TITLE_TEXT = TextStyle(fontSize: )
