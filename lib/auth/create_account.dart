@@ -4,10 +4,14 @@ import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/utility/dialog.dart';
 import 'package:fooddeli/utility/firebase_orders.dart';
 
+import '../main.dart';
+
 class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({Key? key, this.uid, this.resOwner})
+  const CreateAccountPage(
+      {Key? key, this.uid, this.resOwner, this.reStart = false})
       : super(key: key);
   final String? uid;
+  final bool reStart;
   final ResOwner? resOwner;
 
   @override
@@ -112,7 +116,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     setState(() {
                       isLoading = false;
                     });
-                    Navigator.pop(context);
+                    if (widget.reStart) {
+                      RestartWidget.restartApp(context);
+                    }
+                    Navigator.pop(context, nameController.text);
                   },
                   child: Text(isLoading ? "Loading..." : "Update account")),
             ],

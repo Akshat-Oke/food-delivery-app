@@ -50,11 +50,15 @@ class ResSideMenu extends StatelessWidget {
                     child: const Text("Your Items")),
                 const SpaceBetween(),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => CreateAccountPage(
-                              resOwner: context.read<LoginManager>().resOwner,
-                            )));
+                  onTap: () async {
+                    final name = await Navigator.of(context)
+                        .push<String>(MaterialPageRoute(
+                            builder: (_) => CreateAccountPage(
+                                  resOwner:
+                                      context.read<LoginManager>().resOwner,
+                                )));
+                    context.read<LoginManager>().setResName(name);
+                    // context.read<LoginManager>().init();
                   },
                   child: const Text("Update details"),
                 ),

@@ -16,6 +16,17 @@ class LoginManager with ChangeNotifier {
     user = resOwner = _userType = null;
   }
 
+  void hardCheck() {
+    // reset();
+    refresh = 1;
+    checkFirebase();
+  }
+
+  void setResName(String? n) {
+    resOwner?.setName(n);
+    notifyListeners();
+  }
+
   UserTypes? _userType;
   ResOwner? resOwner;
   Student? user;
@@ -36,13 +47,15 @@ class LoginManager with ChangeNotifier {
     if (fireUser != null) {
       await _fetchUser(fireUser);
       setUpFireuserListener(fireUser.uid);
-    }
-    // checkFirebase();
+      setUpFirebaseResListener(resOwner?.resId);
+    } else
+      checkFirebase();
     notifyListeners();
   }
 
-  void checkFirebase(User? user) async {
+  void checkFirebase([User? user]) async {
     var curUser = FirebaseAuth.instance.currentUser;
+    print(curUser);
     if (curUser != null) {
       if (refresh >= 0) {
         refresh--;
@@ -81,6 +94,19 @@ class LoginManager with ChangeNotifier {
     });
   }
 
+  void setUpFirebaseResListener(String? resId) {
+    print("setting up res $resId");
+    FirebaseFirestore.instance
+        .collection("restaurants")
+        .doc(resId)
+        .snapshots()
+        .listen((event) {
+      refresh = 1;
+      checkFirebase(null);
+    });
+  }
+
+  /// Fetches restaurant info from current firebase user
   Future<void> _fetchUser(User user) async {
     final uid = user.uid;
     var doc = FirebaseFirestore.instance.collection("users").doc(uid);
@@ -128,7 +154,7 @@ class LoginManager with ChangeNotifier {
 class ResOwner {
   final String uid;
   final String resId;
-  final String name;
+  String name;
   final List<dynamic> categories;
 
   ResOwner(
@@ -136,6 +162,11 @@ class ResOwner {
       required this.resId,
       required this.name,
       required this.categories});
+  void setName(String? n) {
+    if (n != null) {
+      name = n;
+    }
+  }
 }
 
 class Student {

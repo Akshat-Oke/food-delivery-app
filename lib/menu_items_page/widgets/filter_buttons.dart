@@ -18,6 +18,7 @@ class _FilterButtonsState extends State<FilterButtons> {
   Widget build(BuildContext context) {
     final categories =
         Provider.of<MenuItemsProvider>(context).rModel.categories;
+    categories.removeWhere((element) => element == "All");
     return SliverAppBar(
       automaticallyImplyLeading: false,
       elevation: 0.0,

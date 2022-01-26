@@ -22,18 +22,19 @@ class _OrdersPageState extends State<OrdersPage> {
     final orders =
         jsonDecode(ordersJson ?? '{"orders": []}') as Map<String, dynamic>;
     List<dynamic> list = orders["orders"];
-    print(list[0]['items']);
+    // print(list[0]['items']);
     list = list.reversed.toList();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Your orders"),
         actions: [
-          IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                deleteLocalOrders();
-                setState(() {});
-              }),
+          if (list.isNotEmpty)
+            IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  deleteLocalOrders();
+                  setState(() {});
+                }),
         ],
       ),
       body: list.isEmpty

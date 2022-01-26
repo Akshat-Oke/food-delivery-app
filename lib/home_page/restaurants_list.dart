@@ -25,11 +25,12 @@ class _RestaurantListState extends State<RestaurantList> {
           return SliverToBoxAdapter(child: const Text("error"));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return SliverToBoxAdapter(child: const Text("loading"));
-          // return SliverToBoxAdapter(
-          //   child: PlaceholderCards(),
-          // );
+          // return SliverToBoxAdapter(child: const Text("loading"));
+          return const SliverToBoxAdapter(
+            child: SizedBox(height: 500, child: PlaceholderCards()),
+          );
         }
+
         list = snapshot.data?.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data =
                   document.data()! as Map<String, dynamic>;

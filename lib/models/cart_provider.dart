@@ -69,41 +69,46 @@ class CartProvider with ChangeNotifier {
     return t;
   }
 
-  Future<bool?> placeOrder() async {
+  Future<bool> placeOrder() async {
     if (!await internetIsAvailable()) {
       return false;
     }
-    final fcm = await FirebaseMessaging.instance.getToken();
-    final itemsAsJson = items.map((e) => e.toJSON()).toList();
-    final orderId = (DateTime.now().microsecondsSinceEpoch / 100).toString();
-    final orderJson = {
-      "items": itemsAsJson,
-      "room": room,
-      "time": Timestamp.now(),
-      "fcm": fcm,
-      "orderId": orderId,
-    };
-    final response = await http.post(Uri.parse("$BASE_URL/txnToken"), body: {
-      "amount": totalPrice.toString(),
-      "orderId": orderId,
-    });
-    final token = jsonDecode(response.body.toString()) as Map<String, dynamic>;
-    await startPayment(
-        amount: totalPrice, txnToken: token['txnToken'], orderID: orderId);
-    // return true;
-    _saveOrderLocally({
-      "items": itemsAsJson,
-      "time": Timestamp.now().toString(),
-      "resId": restaurantId,
-    });
+    try {
+      final fcm = await FirebaseMessaging.instance.getToken();
+      final itemsAsJson = items.map((e) => e.toJSON()).toList();
+      final orderId = (DateTime.now().microsecondsSinceEpoch / 100).toString();
+      final orderJson = {
+        "items": itemsAsJson,
+        "room": room,
+        "time": Timestamp.now(),
+        "fcm": fcm,
+        "orderId": orderId,
+      };
+      final response = await http.post(Uri.parse("$BASE_URL/txnToken"), body: {
+        "amount": totalPrice.toString(),
+        "orderId": orderId,
+      });
+      final token =
+          jsonDecode(response.body.toString()) as Map<String, dynamic>;
+      await startPayment(
+          amount: totalPrice, txnToken: token['txnToken'], orderID: orderId);
+      // return true;
+      _saveOrderLocally({
+        "items": itemsAsJson,
+        "time": Timestamp.now().toString(),
+        "resId": restaurantId,
+      });
 
-    CollectionReference restaurantOrders = FirebaseFirestore.instance
-        .collection('restaurants/$restaurantId/orders');
-    // final docid =
-    await restaurantOrders.add(orderJson);
-    items.clear();
-    notifyListeners();
-    return true;
+      CollectionReference restaurantOrders = FirebaseFirestore.instance
+          .collection('restaurants/$restaurantId/orders');
+      // final docid =
+      await restaurantOrders.add(orderJson);
+      items.clear();
+      notifyListeners();
+      return true;
+    } on Exception catch (e) {
+      return false;
+    }
   }
 
   void _saveOrderLocally(obj) {

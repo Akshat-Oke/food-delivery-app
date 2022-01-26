@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/screens/orders_page.dart';
+import 'package:fooddeli/utility/dialog.dart';
 import "package:provider/provider.dart";
 
 class OrderButton extends StatefulWidget {
@@ -81,10 +82,17 @@ class _OrderButtonState extends State<OrderButton> {
                     setState(() {
                       isLoading = true;
                     });
-                    await context.read<CartProvider>().placeOrder();
+                    final result =
+                        await context.read<CartProvider>().placeOrder();
                     setState(() {
                       isLoading = false;
                     });
+                    if (result == false) {
+                      showInfoDialog(context,
+                          "Could not place order. Try checking your internet connection.");
+                      return;
+                    }
+                    Navigator.pop(context);
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (_) => const OrdersPage()));
                   },

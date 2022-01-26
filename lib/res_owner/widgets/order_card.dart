@@ -157,50 +157,105 @@ class PlaceholderCards extends StatelessWidget {
       child: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Row(
+          padding: const EdgeInsets.only(left: 8, right: 12, bottom: 20.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+            decoration: BoxDecoration(
+                // color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFF444444), width: 1)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // Container(
+                //   width: 48.0,
+                //   height: 48.0,
+                //   color: Colors.white,
+                // ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(right: 50),
+                        height: 20.0,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 6),
+                      Container(
+                        width: double.infinity,
+                        height: 10.0,
+                        color: Colors.white,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 6.0),
+                      ),
+                      Container(
+                        width: 40.0,
+                        height: 8.0,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerCardHolder extends StatelessWidget {
+  const ShimmerCardHolder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          width: 48.0,
+          height: 48.0,
+          color: Colors.white,
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+        ),
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                width: 48.0,
-                height: 48.0,
+                width: double.infinity,
+                height: 8.0,
                 color: Colors.white,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.symmetric(vertical: 2.0),
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      height: 8.0,
-                      color: Colors.white,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2.0),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 8.0,
-                      color: Colors.white,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2.0),
-                    ),
-                    Container(
-                      width: 40.0,
-                      height: 8.0,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
+              Container(
+                width: double.infinity,
+                height: 8.0,
+                color: Colors.white,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 2.0),
+              ),
+              Container(
+                width: 40.0,
+                height: 8.0,
+                color: Colors.white,
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

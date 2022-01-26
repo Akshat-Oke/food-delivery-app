@@ -18,125 +18,120 @@ class ItemCard extends StatelessWidget {
   final MenuItem menuItem;
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: menuItem,
-      child: TranslationAnimatedWidget(
-        duration: const Duration(milliseconds: 150),
-        delay: Duration(milliseconds: 100 + ((indexInList ?? delay) * 80)),
+    return TranslationAnimatedWidget(
+      duration: const Duration(milliseconds: 150),
+      delay: Duration(milliseconds: 100 + ((indexInList ?? delay) * 80)),
+      enabled: true,
+      values: animate
+          ? const [Offset(-50, 0), Offset(0, 0)]
+          : const [Offset(0, 0), Offset(0, 0)],
+      child: OpacityAnimatedWidget(
+        values: animate ? const [0, 1] : const [1.0, 1.0],
+        duration: const Duration(milliseconds: 250),
+        delay: Duration(milliseconds: 100 + ((indexInList ?? delay++) * 80)),
         enabled: true,
-        values: animate
-            ? const [Offset(-50, 0), Offset(0, 0)]
-            : const [Offset(0, 0), Offset(0, 0)],
-        child: OpacityAnimatedWidget(
-          values: animate ? const [0, 1] : const [1.0, 1.0],
-          duration: const Duration(milliseconds: 250),
-          delay: Duration(milliseconds: 100 + ((indexInList ?? delay++) * 80)),
-          enabled: true,
-          child: Container(
-            margin:
-                const EdgeInsets.only(left: 10, right: 15, top: 9, bottom: 15),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 15,
-                    color: Colors.grey.shade300,
-                  )
-                ]),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  menuItem.isNonVeg
-                      ? Icons.change_history_rounded
-                      : Icons.radio_button_checked,
-                  color: !menuItem.isAvailable
-                      ? Colors.grey
-                      : menuItem.isNonVeg
-                          ? Colors.brown
-                          : Colors.green,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+        child: Container(
+          margin:
+              const EdgeInsets.only(left: 10, right: 15, top: 9, bottom: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 15,
+                  color: Colors.grey.shade300,
+                )
+              ]),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                menuItem.isNonVeg
+                    ? Icons.change_history_rounded
+                    : Icons.radio_button_checked,
+                color: !menuItem.isAvailable
+                    ? Colors.grey
+                    : menuItem.isNonVeg
+                        ? Colors.brown
+                        : Colors.green,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    menuItem.name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  // const SizedBox(height: 5),
+                  if (menuItem.category != null)
                     Text(
-                      menuItem.name,
+                      menuItem.category!,
                       style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey,
                       ),
                     ),
-                    // const SizedBox(height: 5),
-                    if (menuItem.category != null)
-                      Text(
-                        menuItem.category!,
-                        style: const TextStyle(
-                          color: Colors.blueGrey,
-                        ),
-                      ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "₹ ${menuItem.price}",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: !menuItem.isAvailable
-                            ? Colors.grey
-                            : Theme.of(context).colorScheme.primary,
-                      ),
+                  const SizedBox(height: 5),
+                  Text(
+                    "₹ ${menuItem.price}",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: !menuItem.isAvailable
+                          ? Colors.grey
+                          : Theme.of(context).colorScheme.primary,
                     ),
-                    if (!menuItem.isAvailable)
-                      TranslationAnimatedWidget(
-                        enabled: true,
-                        duration: const Duration(milliseconds: 150),
+                  ),
+                  if (!menuItem.isAvailable)
+                    TranslationAnimatedWidget(
+                      enabled: true,
+                      duration: const Duration(milliseconds: 150),
+                      delay: Duration(
+                          milliseconds: 200 + ((indexInList ?? delay) * 80)),
+                      values: const [
+                        Offset(-10, 0),
+                        Offset(0, 0),
+                      ],
+                      child: OpacityAnimatedWidget(
                         delay: Duration(
                             milliseconds: 200 + ((indexInList ?? delay) * 80)),
-                        values: const [
-                          Offset(-10, 0),
-                          Offset(0, 0),
-                        ],
-                        child: OpacityAnimatedWidget(
-                          delay: Duration(
-                              milliseconds:
-                                  200 + ((indexInList ?? delay) * 80)),
-                          duration: const Duration(milliseconds: 120),
-                          enabled: true,
-                          child: const Text(
-                            "Currently unavailable",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontStyle: FontStyle.italic,
-                            ),
+                        duration: const Duration(milliseconds: 120),
+                        enabled: true,
+                        child: const Text(
+                          "Currently unavailable",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontStyle: FontStyle.italic,
                           ),
                         ),
                       ),
-                  ],
+                    ),
+                ],
+              ),
+              const Spacer(),
+              if (!forRes) AddButton(menuItem),
+              if (forRes && menuItem.isAvailable)
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.red),
+                  onPressed: () async {
+                    animate = false;
+                    _showDialogForDisableItem(context);
+                  },
                 ),
-                const Spacer(),
-                if (!forRes) AddButton(menuItem),
-                if (forRes && menuItem.isAvailable)
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.red),
-                    onPressed: () async {
-                      animate = false;
-                      _showDialogForDisableItem(context);
-                    },
-                  ),
-                if (forRes && !menuItem.isAvailable)
-                  IconButton(
-                    icon:
-                        const Icon(Icons.restore_rounded, color: Colors.green),
-                    onPressed: () async {
-                      animate = false;
-                      restoreItem(menuItem);
-                    },
-                  ),
-              ],
-            ),
+              if (forRes && !menuItem.isAvailable)
+                IconButton(
+                  icon: const Icon(Icons.restore_rounded, color: Colors.green),
+                  onPressed: () async {
+                    animate = false;
+                    restoreItem(menuItem);
+                  },
+                ),
+            ],
           ),
         ),
       ),
@@ -147,7 +142,7 @@ class ItemCard extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text("Remove item"),
+              title: Text("Remove ${menuItem.name}"),
               content: const Text(
                   "You can choose to either delete the item or mark it as currently unavailable (disable for order)."),
               actions: [

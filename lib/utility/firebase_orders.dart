@@ -50,6 +50,15 @@ void _updateOutlet({
   });
 }
 
+void addEmptyOutlet(String uid) {
+  addOutlet(
+      uid: uid,
+      outletName: "",
+      fromTime: TimeOfDay.now(),
+      toTime: TimeOfDay.now(),
+      resId: "test");
+}
+
 Future<void> addItem(MenuItem menuItem) async {
   CollectionReference col = _firestore.collection("restaurants");
   final doc = await col.doc(menuItem.restaurantId).get();

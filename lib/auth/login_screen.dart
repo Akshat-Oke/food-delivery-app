@@ -3,8 +3,11 @@ import "package:flutter/material.dart";
 import 'package:fooddeli/auth/create_account.dart';
 import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/utility/dialog.dart';
+import 'package:fooddeli/utility/firebase_orders.dart';
 import 'package:fooddeli/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage(this.onCancel, {Key? key}) : super(key: key);
@@ -81,9 +84,12 @@ class _LoginPageState extends State<LoginPage> {
                     FirebaseAuth.instance.signOut();
                     return;
                   }
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) =>
-                          CreateAccountPage(uid: userCredential.user!.uid)));
+                  // addEmptyOutlet(userCredential.user!.uid);
+                  await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => CreateAccountPage(
+                          uid: userCredential.user!.uid, reStart: true)));
+                  // context.read<LoginManager>().hardCheck();
+                  // context.read<LoginManager>().init();
                   // await addOutlet(userCredential.user!.uid, outlet);
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
@@ -95,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 } catch (e) {
                   // print(e);
-                  showInfoDialog(context, "UNexpected error occurred");
+                  showInfoDialog(context, "Unexpected error occurred");
                 }
               },
               child: const Text("Create account"),
