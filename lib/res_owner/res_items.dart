@@ -5,6 +5,9 @@ import 'package:fooddeli/models/menu_item.dart';
 import 'package:fooddeli/res_owner/widgets/order_card.dart';
 import 'package:collection/collection.dart';
 
+/// Restaurant items listing page.
+///
+/// Items can be deleted or disabled from here.
 class ResItemsPage extends StatelessWidget {
   const ResItemsPage(this.resId, {Key? key}) : super(key: key);
   final String resId;

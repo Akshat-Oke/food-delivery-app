@@ -4,14 +4,29 @@ import 'package:fooddeli/models/menu_item.dart';
 import 'package:fooddeli/models/restaurant_model.dart';
 
 class MenuItemsProvider with ChangeNotifier {
+  /// This will fetch menu items given a restaurant
   MenuItemsProvider(this.rModel);
   RestaurantModel rModel;
-  List<MenuItem> origMenu = [];
+
+  /// The whole menu from database
+  List<MenuItem> _origMenu = [];
   bool isLoading = false;
   bool hasError = false;
-  List<MenuItem> menuVegOrNon = [];
+
+  /// The menu with a vegetarian filter applied.
+  List<MenuItem> _menuVegOrNon = [];
+
+  /// Filtered menu using categories + veg preference
+  ///
+  /// Used for displaying the menu items
   List<MenuItem> filteredMenu = [];
+
+  /// The current category selected.
+  ///
+  /// Used for filtering menu after changing veg preference
   String? category;
+
+  /// Get the menu item details from Firebase
   Future<void> getMenu() async {
     isLoading = true;
     notifyListeners();
@@ -20,13 +35,13 @@ class MenuItemsProvider with ChangeNotifier {
           .collection("restaurants/${rModel.docId}/items");
       final snapshot = await items.get();
       final docs = snapshot.docs;
-      origMenu = docs.map((e) {
+      _origMenu = docs.map((e) {
         final json = e.data() as Map<String, dynamic>;
         json["restaurantId"] = rModel.docId;
         return MenuItem.fromJSON(json, e.id);
       }).toList();
-      filteredMenu = origMenu;
-      menuVegOrNon = origMenu;
+      filteredMenu = _origMenu;
+      _menuVegOrNon = _origMenu;
       category = "All";
     } catch (e) {
       hasError = true;
@@ -43,12 +58,12 @@ class MenuItemsProvider with ChangeNotifier {
 
   void clearFilters() {
     category = "All";
-    filteredMenu = [...menuVegOrNon];
+    filteredMenu = [..._menuVegOrNon];
     notifyListeners();
   }
 
   void clearVegPreference() {
-    menuVegOrNon = [...origMenu];
+    _menuVegOrNon = [..._origMenu];
     _filterByCategory(category);
   }
 
@@ -58,7 +73,7 @@ class MenuItemsProvider with ChangeNotifier {
       clearFilters();
       return;
     }
-    filteredMenu = [...menuVegOrNon].where((menu) {
+    filteredMenu = [..._menuVegOrNon].where((menu) {
       // print(menu.category);
       return (menu.category == category);
     }).toList();
@@ -67,12 +82,12 @@ class MenuItemsProvider with ChangeNotifier {
   }
 
   /// If `isVeg` is true, only Veg items.
-  /// If false, only non veg items
+  /// If false, all items
   void applyOnlyVegFilter(bool isVeg) {
     if (!isVeg) {
-      menuVegOrNon = [...origMenu];
+      _menuVegOrNon = [..._origMenu];
     } else {
-      menuVegOrNon = [...origMenu].where((item) {
+      _menuVegOrNon = [..._origMenu].where((item) {
         return (!item.isNonVeg);
       }).toList();
     }

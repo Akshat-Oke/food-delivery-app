@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 FirebaseFirestore _firestore = FirebaseFirestore.instance;
 const serverBaseURL = "https://food-deli.herokuapp.com";
 
-/// Adds or updates outlet, depending on resId
+/// Adds or updates outlet, depending on [resId]
 Future<void> addOutlet(
     {required String uid,
     required String outletName,
@@ -50,15 +50,11 @@ void _updateOutlet({
   });
 }
 
-void addEmptyOutlet(String uid) {
-  addOutlet(
-      uid: uid,
-      outletName: "",
-      fromTime: TimeOfDay.now(),
-      toTime: TimeOfDay.now(),
-      resId: "test");
-}
-
+/// Adds item to a restaurant's menu
+///
+/// Uses the [menuItem]'s restaurantId.
+/// If the [menuItem.category] is not yet included in the restaurant's
+/// category list, it will be added there
 Future<void> addItem(MenuItem menuItem) async {
   CollectionReference col = _firestore.collection("restaurants");
   final doc = await col.doc(menuItem.restaurantId).get();
@@ -91,6 +87,7 @@ Future<void> removeItem(
   }
 }
 
+/// Sets an item as available for order again.
 Future<void> restoreItem(MenuItem menuItem) async {
   final doc = FirebaseFirestore.instance
       .collection("restaurants/${menuItem.restaurantId}/items")
@@ -99,6 +96,8 @@ Future<void> restoreItem(MenuItem menuItem) async {
   await doc.update({'isAvailable': true});
 }
 
+/// Signify that an order is being dispatched. Sends a notification
+/// through the backend server
 Future<void> closeOrder(String resId, Order order) async {
   // print(order.resName);
   await http.post(

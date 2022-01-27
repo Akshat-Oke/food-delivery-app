@@ -5,6 +5,8 @@ import 'package:fooddeli/models/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartBottomSheet extends StatelessWidget {
+  /// A bottom sheet like in Swiggy displaying total price
+  ///  and number of items
   const CartBottomSheet({Key? key}) : super(key: key);
 
   @override

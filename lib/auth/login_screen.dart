@@ -3,11 +3,8 @@ import "package:flutter/material.dart";
 import 'package:fooddeli/auth/create_account.dart';
 import 'package:fooddeli/models/login_manager.dart';
 import 'package:fooddeli/utility/dialog.dart';
-import 'package:fooddeli/utility/firebase_orders.dart';
 import 'package:fooddeli/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
-
-import '../main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage(this.onCancel, {Key? key}) : super(key: key);

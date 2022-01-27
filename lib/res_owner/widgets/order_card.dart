@@ -6,10 +6,18 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class OrderCard extends StatelessWidget {
+  /// Shows a card with order details.
+  ///
+  /// Used for both restaurant(with close order function)
+  /// and user view
   const OrderCard(this.order,
       {this.forUser = false, required this.resId, Key? key})
       : super(key: key);
+
+  /// The order to display
   final Order order;
+
+  /// Current restaurant ID. Used for closing the order
   final String resId;
 
   /// Whether this card is shown for a user (true) or res owner

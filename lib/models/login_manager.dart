@@ -8,18 +8,17 @@ enum UserTypes { visitor, user, owner }
 late SharedPreferences prefs;
 int refresh = 2;
 
+/// A global provider
 class LoginManager with ChangeNotifier {
+  /// Also initializes firebase messaging for
+  /// receiving notifications.
   LoginManager() {
     _setUpMessaging();
   }
+
+  /// Reset after logging out or logging in as a new owner
   void reset() {
     user = resOwner = _userType = null;
-  }
-
-  void hardCheck() {
-    // reset();
-    refresh = 1;
-    checkFirebase();
   }
 
   void setResName(String? n) {
@@ -32,6 +31,9 @@ class LoginManager with ChangeNotifier {
   Student? user;
   UserTypes get userType => _userType ?? UserTypes.visitor;
   bool get isLoggedIn => _userType != null;
+
+  /// Check if user is logged in as a student
+  /// by reading shared_preferences
   Future<void> init({User? fireUser}) async {
     prefs = await SharedPreferences.getInstance();
     String? room = prefs.getString("room");
@@ -72,14 +74,6 @@ class LoginManager with ChangeNotifier {
       }
       return;
     }
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   if (user == null) {
-    //     _userType = null;
-    //     notifyListeners();
-    //   } else {
-    //     fetchUser(user);
-    //   }
-    // });
   }
 
   void setUpFireuserListener(String uid) {

@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddeli/models/menu_item.dart';
 
+/// A restaurant.
+///
+/// Must be constructed from JSON, using
+/// [RestaurantModel.fromJSON]
 class RestaurantModel {
-  //Private constructor
+  /// Private constructor
   RestaurantModel._({
     required this.name,
     // this.isOpen = true,
@@ -13,13 +17,18 @@ class RestaurantModel {
     required this.categories,
   });
   final String name;
+
+  /// The Firebase id for this restaurant
   final String docId;
   // final bool isOpen;
+  /// Categories in the menu
   final List<dynamic> categories;
 
-  /// from and to times
+  /// Opening and closing times
   final Timestamp fromTime, toTime;
 
+  /// Whether this restaurant is open depending on
+  /// opening and closing times
   bool get isOpen {
     final now = toDouble(TimeOfDay.now());
     final fromTime = toDouble(this.fromTime.toTimeOfDay());
@@ -30,18 +39,9 @@ class RestaurantModel {
 
   /// Menu items
   List<MenuItem>? items;
-  String get fromTimeString {
-    final DateTime date = fromTime.toDate();
-    final time = TimeOfDay.fromDateTime(date);
-    return "${time.hour}:${time.minute}";
-  }
 
-  String get toTimeString {
-    final DateTime date = toTime.toDate();
-    final time = TimeOfDay.fromDateTime(date);
-    return "${time.hour}:${time.minute}";
-  }
-
+  /// Get the opening and closing times for display
+  /// Ex. 10:00 AM - 3:00 PM
   String times(context) {
     DateTime date = fromTime.toDate();
     TimeOfDay fTime = TimeOfDay(hour: date.hour, minute: date.minute);
@@ -50,6 +50,9 @@ class RestaurantModel {
     return ("${fTime.format(context)} - ${tTime.format(context)}");
   }
 
+  /// Construct a [RestaurantModel] from JSON.
+  ///
+  /// [json] must have a Firebase _id_
   factory RestaurantModel.fromJSON(Map<String, dynamic> json) {
     return RestaurantModel._(
       name: json["name"] ?? "Restaurant",

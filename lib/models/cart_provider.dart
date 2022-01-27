@@ -27,6 +27,10 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Adds a [menuItem] to cart
+  ///
+  /// If the [menuItem] already exists, its
+  /// quantity is increased
   void addToCart(MenuItem menuItem) {
     for (var item in items) {
       if (item.menuItem.id == menuItem.id) {
@@ -48,6 +52,10 @@ class CartProvider with ChangeNotifier {
     return q;
   }
 
+  /// Decrease quantity of the [menuItem] by 1.
+  ///
+  /// If quantity was 1 to begin with, this [menuItem]
+  /// is removed from the cart.
   void decreaseQuantity(MenuItem menuItem) {
     final i = items.indexWhere((element) => element.menuItem.id == menuItem.id);
 
@@ -60,7 +68,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  ///Total cost of order
+  /// Total cost of order
   int get totalPrice {
     int t = 0;
     for (var element in items) {
@@ -69,6 +77,7 @@ class CartProvider with ChangeNotifier {
     return t;
   }
 
+  /// Places order after initiating payment
   Future<bool> placeOrder() async {
     if (!await internetIsAvailable()) {
       return false;
@@ -120,14 +129,9 @@ class CartProvider with ChangeNotifier {
   }
 }
 
+/// This kind of extends a [MenuItem], with quantity.
 class CartItem {
   CartItem(this.menuItem, {this.quantity = 1});
-  // factory CartItem.withQuan(
-  //     {required MenuItem menuItem, required int quantity}) {
-  //   final ci = CartItem(menuItem);
-  //   // ci.quantity = quantity;
-  //   return ci;
-  // }
   final MenuItem menuItem;
   int quantity; // = 1;
   int get cost => quantity * menuItem.price;

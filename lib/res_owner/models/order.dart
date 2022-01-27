@@ -4,12 +4,25 @@ import 'package:fooddeli/models/cart_provider.dart';
 import 'package:fooddeli/models/menu_item.dart';
 import 'package:fooddeli/models/restaurant_model.dart' show TimeOfTimestamp;
 
+/// A restaurant's order
 class Order with ChangeNotifier {
+  /// Items in this order as a [Map]
   List<dynamic> items;
+
+  /// Items in this order as [CartItem]s
   List<CartItem> cartItems = [];
+
+  /// Time at which the order was placed
   final Timestamp time;
+
+  /// [userFCM] is used for notifications
   final String userFCM, room;
+
+  /// The restaurant name for this order.
+  /// Used for showing the order in User view
   String? resName;
+
+  /// Firebase id for this order
   String? id;
 
   String timeString(BuildContext context) {
@@ -27,6 +40,7 @@ class Order with ChangeNotifier {
     this.id,
   });
 
+  /// For each item, populates the [cartItems] with details
   Future<void> getItemDetails(String resId) async {
     // cartItems.clear();
     final CollectionReference col =

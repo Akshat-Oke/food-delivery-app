@@ -5,6 +5,7 @@ import 'package:fooddeli/utility/firebase_orders.dart';
 import 'package:fooddeli/widgets/custom_text_field.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+/// Page where restaurant owner adds new items to menu
 class AddItemPage extends StatefulWidget {
   const AddItemPage(this.resOwner, {Key? key}) : super(key: key);
   final ResOwner? resOwner;

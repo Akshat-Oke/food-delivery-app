@@ -7,6 +7,9 @@ import 'package:fooddeli/res_owner/models/order.dart';
 import 'package:fooddeli/res_owner/widgets/order_card.dart';
 import 'package:fooddeli/utility/firebase_orders.dart';
 
+/// Displays recent orders made by the user.
+///
+/// Fetches data from shared_preferences
 class OrdersPage extends StatefulWidget {
   const OrdersPage({Key? key}) : super(key: key);
 

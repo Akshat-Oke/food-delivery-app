@@ -20,11 +20,12 @@ class _WelcomePageState extends State<WelcomePage> {
   bool asOwner = false;
   bool welcome = true;
 
-  /// ID frmo scanned ID card
+  /// ID from scanned ID card
   String? id;
   final roomController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -41,9 +42,9 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           TranslationAnimatedWidget(
             duration: const Duration(milliseconds: 200),
-            values: const [
-              Offset(500, 0),
-              Offset(0, 0),
+            values: [
+              Offset(width + 20, 0),
+              const Offset(0, 0),
             ],
             enabled: !welcome,
             child: LoginPage(() {
@@ -56,9 +57,9 @@ class _WelcomePageState extends State<WelcomePage> {
               child: TranslationAnimatedWidget(
             enabled: welcome,
             duration: const Duration(milliseconds: 200),
-            values: const [
-              Offset(-500, 0),
-              Offset(0, 0),
+            values: [
+              Offset(-(width + 20), 0),
+              const Offset(0, 0),
             ],
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -78,10 +79,10 @@ class _WelcomePageState extends State<WelcomePage> {
                 ElevatedButton(
                   child: const Text("Continue as User"),
                   onPressed: () {
-                    if (id == null) {
-                      showInfoDialog(context, "Scan ID first!");
-                      return;
-                    }
+                    // if (id == null) {
+                    //   showInfoDialog(context, "Scan ID first!");
+                    //   return;
+                    // }
                     if (roomController.text.isEmpty) {
                       showInfoDialog(context, "Room number is required.");
                     } else {
